@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents different types of files, such as images, videos, audio, and documents.
-public enum FileType {
+public enum FileType: Equatable {
     
     /// Image file type, such as JPG, PNG, or GIF.
     case image(ImageFile)
