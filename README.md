@@ -33,9 +33,9 @@ let imageFile = File(name: "example.jpg", type: .image(.jpg), content: imageData
 let pdfFile = File(name: "document.pdf", type: .document(.pdf), content: pdfData)
 ```
 
-### Setting Up a Multipart Request
+### Setting Up a Multipart
 
-To create a multipart request, you can initialize the `Multipart` class and set the fields:
+To create a multipart, you can initialize the `Multipart` class and set the fields:
 
 ```swift
 let multipart = Multipart()
@@ -51,7 +51,9 @@ You can retrieve the HTTP header and body to send your multipart request:
 
 ```swift
 let url = URL(string: "https://example.com/upload")!
-let request = URLRequest(url: url, multipart: multipart)
+var request = URLRequest(url: url)
+request.addValue(multipart.httpHeader.value, forHTTPHeaderField: multipart.httpHeader.field)
+request.httpBody = multipart.httpBody
 
 // Perform Request...
 ```
@@ -60,9 +62,7 @@ or
 
 ```swift
 let url = URL(string: "https://example.com/upload")!
-var request = URLRequest(url: url)
-request.addValue(multipart.httpHeader.value, forHTTPHeaderField: multipart.httpHeader.field)
-request.httpBody = multipart.httpBody
+let request = URLRequest(url: url, multipart: multipart)
 
 // Perform Request...
 ```
@@ -96,7 +96,7 @@ Represents various types of values that can be used in requests.
     - `files([File])`
 
 ### Multipart Class
-Represents a multipart request.
+Represents a multipart.
 
 - **Properties**:
     - `boundary`: The boundary string used to separate different parts.
